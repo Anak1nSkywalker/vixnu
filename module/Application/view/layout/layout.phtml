@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html ng-app="myApp" lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>CRUD AngularJS</title>
+        <link href="/img/favicon.png" rel="icon" type="image/png">
+
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.13/angular.min.js"></script>     
+
+    </head>
+    <body ng-controller="productController">
+
+        <table cellpadding="2" cellspacing="2" border="1">
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Option</th>
+            </tr>    
+            <tr ng-repeat="product in listProducts">
+                <td>{{product.id}}</td>
+                <td>{{product.name}}</td>
+                <td>{{product.price}}</td>
+                <td>{{product.quantity}}</td>
+                <td>
+                    <a href="#" ng-click="del(product.id)">Delete</a> | 
+                    <a href="#" ng-click="selectEdit(product.id)">Edit</a>
+                </td>
+            </tr>
+        </table>
+
+        <h3>Product Information</h3>
+        <table cellpadding="2" cellspacing="2">
+            <tr>
+                <td>Id</td>
+                <td><input type="text" ng-model="id"></td>
+            </tr>
+            <tr>
+                <td>Name</td>
+                <td><input type="text" ng-model="name"></td>
+            </tr>
+            <tr>
+                <td>Price</td>
+                <td><input type="text" ng-model="price"></td>
+            </tr>
+            <tr>
+                <td>Quantity</td>
+                <td><input type="text" ng-model="quantity"></td>
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+                <td>
+                    <input type="button" value="Add" ng-click="add()">
+                    <input type="button" value="Save" ng-click="edit()" >
+                </td>
+            </tr>
+        </table>
+
+        <script type="text/javascript">
+                    var myapp = angular.module('myApp', []);
+                    myapp.controller('productController', function($scope) {
+
+                        $scope.listProducts = [
+                            {id: 'p01', name: 'Product 1', price: 1000, quantity: 20},
+                            {id: 'p02', name: 'Product 2', price: 2000, quantity: 21},
+                            {id: 'p03', name: 'Product 3', price: 3000, quantity: 22},
+                            {id: 'p04', name: 'Product 4', price: 4000, quantity: 23},
+                            {id: 'p05', name: 'Product 5', price: 5000, quantity: 24}
+                        ];
+
+                        $scope.add = function() {
+                            $scope.listProducts.push({
+                                id: $scope.id, name: $scope.name, price: $scope.price, quantity: $scope.quantity
+                            });
+                            $scope.id = '';
+                            $scope.name = '';
+                            $scope.price = '';
+                            $scope.quantity = '';
+                        };
+
+                        $scope.edit = function() {
+                            var index = getSelectedIndex($scope.id);
+                            $scope.listProducts[index].name = $scope.name;
+                            $scope.listProducts[index].price = $scope.price;
+                            $scope.listProducts[index].quantity = $scope.quantity;
+                        };
+
+                        $scope.selectEdit = function(id) {
+                            var index = getSelectedIndex(id);
+                            var product = $scope.listProducts[index];
+                            $scope.id = product.id;
+                            $scope.name = product.name;
+                            $scope.price = product.price;
+                            $scope.quantity = product.quantity;
+                        };
+
+                        $scope.del = function(id) {
+                            var result = confirm('Are you sure?');
+                            if (result === true) {
+                                var index = getSelectedIndex(id);
+                                $scope.listProducts.splice(index, 1);
+                            }
+                        };
+
+                        function getSelectedIndex(id) {
+                            for (var i = 0; i < $scope.listProducts.length; i++)
+                                if ($scope.listProducts[i].id == id)
+                                    return i;
+                            return -1;
+                        };
+
+                    });
+        </script>
+
+    </body>
+
+</html>

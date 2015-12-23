@@ -1,0 +1,25 @@
+<div ng-init="load()">
+    <h3>Tipo de Cliente</h3>
+
+    <a href="#/customer-type/create">Novo</a>
+
+    <table class="table">
+        <thead>
+        <th>ID</th>
+        <th>Descrição</th>
+        <th>Ação</th>
+        </thead>
+        <tbody>
+            <tr ng-repeat="registro in registros._embedded.customer_type">
+                <td>{{registro.id}}</td>
+                <td>{{registro.description}}</td>
+                <td>
+                    <a href="#/customer-type/edit/{{registro.id}}" class="btn btn-primary btn-xs">Editar</a>
+                    <a href="#" ng-click="delete(registro.id)" class="btn btn-danger btn-xs">Deletar</a> 
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+
